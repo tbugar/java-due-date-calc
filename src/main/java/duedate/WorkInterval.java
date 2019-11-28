@@ -10,6 +10,7 @@ class WorkInterval {
     private final Calendar dueDate;
     private final int startWorkHour;
     private final int endWorkHour;
+    private final int workingHoursPerDay;
 
     WorkInterval(Calendar startDate) {
         this(startDate, 9, 17);
@@ -20,6 +21,7 @@ class WorkInterval {
         this.dueDate.setTime(startDate.getTime());
         this.startWorkHour = startWorkHour;
         this.endWorkHour = endWorkHour;
+        workingHoursPerDay = endWorkHour - startWorkHour;
     }
 
     Calendar getDueDate() {
@@ -27,8 +29,8 @@ class WorkInterval {
     }
 
     void addHours(int hours) {
-        int daysToAdd = hours / 8;
-        int currentEndHour = dueDate.get(Calendar.HOUR_OF_DAY) + hours % 8;
+        int daysToAdd = hours / workingHoursPerDay;
+        int currentEndHour = dueDate.get(Calendar.HOUR_OF_DAY) + hours % workingHoursPerDay;
         if (currentEndHour > endWorkHour
                 || (currentEndHour == endWorkHour && dueDate.get(Calendar.MINUTE) > 0)) {
             daysToAdd++;
@@ -39,9 +41,10 @@ class WorkInterval {
     }
 
     private void addDays(int days) {
-        int fullWeeks = days / 5;
+        int workingDaysPerWeek = 5;
+        int fullWeeks = days / workingDaysPerWeek;
         dueDate.set(Calendar.DAY_OF_YEAR, dueDate.get(Calendar.DAY_OF_YEAR) + fullWeeks * 7);
-        int remainingDays = days % 5;
+        int remainingDays = days % workingDaysPerWeek;
         while (remainingDays > 0 || isItWeekend(dueDate.get(Calendar.DAY_OF_WEEK))) {
             if (!isItWeekend(dueDate.get(Calendar.DAY_OF_WEEK))) {
                 remainingDays--;
