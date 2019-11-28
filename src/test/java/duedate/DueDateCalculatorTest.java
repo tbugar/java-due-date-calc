@@ -1,6 +1,7 @@
 package duedate;
 
-import org.junit.Assert;
+import duedate.exception.DueDateCalcException;
+import duedate.exception.InvalidStartDateException;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -9,12 +10,16 @@ import java.util.GregorianCalendar;
 
 public class DueDateCalculatorTest {
 
-    private final Date startDate = new GregorianCalendar(2019, Calendar.NOVEMBER, 28, 10, 12).getTime();
+    private final Date invalidStartDate = new GregorianCalendar(2019, Calendar.NOVEMBER, 28, 8, 12).getTime();
     private final int withinADayWorkingHours = 4;
-    private final Date withinADayEndDate = new GregorianCalendar(2019, Calendar.NOVEMBER, 28, 14, 12).getTime();
 
-    @Test
-    public void testWithinADay() {
-        Assert.assertEquals(withinADayEndDate, DueDateCalculator.getDueDate(startDate, withinADayWorkingHours));
+    @Test(expected = InvalidStartDateException.class)
+    public void testInvalidStartDateThrowsException() throws DueDateCalcException {
+        DueDateCalculator.calcDueDate(invalidStartDate, withinADayWorkingHours);
+    }
+
+    @Test(expected = InvalidStartDateException.class)
+    public void testNullDueDateThrowsException() throws DueDateCalcException {
+        DueDateCalculator.calcDueDate(null, withinADayWorkingHours);
     }
 }
