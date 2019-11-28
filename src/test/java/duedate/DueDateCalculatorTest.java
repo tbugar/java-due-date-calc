@@ -1,6 +1,5 @@
 package duedate;
 
-import duedate.exception.DueDateCalcException;
 import duedate.exception.InvalidStartDateException;
 import org.junit.Test;
 
@@ -15,17 +14,17 @@ public class DueDateCalculatorTest {
     private final int withinADayWorkingHours = 4;
 
     @Test(expected = InvalidStartDateException.class)
-    public void testInvalidStartDateThrowsException() throws DueDateCalcException {
+    public void testInvalidStartDateThrowsException() throws InvalidStartDateException {
         DueDateCalculator.calcDueDate(invalidStartDate, withinADayWorkingHours);
     }
 
     @Test(expected = InvalidStartDateException.class)
-    public void testNullDueDateThrowsException() throws DueDateCalcException {
+    public void testNullDueDateThrowsException() throws InvalidStartDateException {
         DueDateCalculator.calcDueDate(null, withinADayWorkingHours);
     }
 
     @Test(expected = InvalidStartDateException.class)
-    public void testReportNonWorkingHour() throws DueDateCalcException {
+    public void testReportNonWorkingHour() throws InvalidStartDateException {
         DueDateCalculator.calcDueDate(nonWorkingDay, withinADayWorkingHours);
     }
 }
