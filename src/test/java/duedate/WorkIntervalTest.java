@@ -1,7 +1,6 @@
 package duedate;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -9,26 +8,20 @@ import java.util.GregorianCalendar;
 
 public class WorkIntervalTest {
 
-    private final Calendar startDate = new GregorianCalendar(2019, Calendar.NOVEMBER, 21, 10, 12);
-    private final Calendar startDateZeroMinutes = new GregorianCalendar(2019, Calendar.NOVEMBER, 21, 10, 0);
-    private final int startWorkingHour = 9;
-    private final int endWorkingHour = 17;
-    private WorkInterval workInterval;
-
-    @Before
-    public void setup() {
-        workInterval = new WorkInterval(startDate, startWorkingHour, endWorkingHour);
-    }
+    private final Calendar nov21_1012_Thursday = new GregorianCalendar(2019, Calendar.NOVEMBER, 21, 10, 12);
 
     @Test
     public void testAddHoursThroughDay() {
+        WorkInterval workInterval = new WorkInterval(nov21_1012_Thursday);
         workInterval.addHours(9);
         Assert.assertEquals(11, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
+        Assert.assertEquals(12, workInterval.getDueDate().get(Calendar.MINUTE));
         Assert.assertEquals(22, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
     }
 
     @Test
     public void testAddHoursInDay() {
+        WorkInterval workInterval = new WorkInterval(nov21_1012_Thursday);
         workInterval.addHours(4);
         Assert.assertEquals(14, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
         Assert.assertEquals(21, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
@@ -36,6 +29,7 @@ public class WorkIntervalTest {
 
     @Test
     public void testAddHoursUntilEndHourWithMinutes() {
+        WorkInterval workInterval = new WorkInterval(nov21_1012_Thursday);
         workInterval.addHours(7);
         Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
         Assert.assertEquals(22, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
@@ -43,32 +37,32 @@ public class WorkIntervalTest {
 
     @Test
     public void testAddHoursUntilEndHourWithZeroMinutes() {
-        WorkInterval workIntervalZeroMinutes = new WorkInterval(startDateZeroMinutes, startWorkingHour, endWorkingHour);
-        workIntervalZeroMinutes.addHours(7);
-        Assert.assertEquals(17, workIntervalZeroMinutes.getDueDate().get(Calendar.HOUR_OF_DAY));
-        Assert.assertEquals(21, workIntervalZeroMinutes.getDueDate().get(Calendar.DAY_OF_MONTH));
+        Calendar nov21_1000_Thursday = nov21_1012_Thursday;
+        nov21_1000_Thursday.set(Calendar.MINUTE, 0);
+        WorkInterval workInterval = new WorkInterval(nov21_1000_Thursday);
+        workInterval.addHours(7);
+        Assert.assertEquals(17, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
+        Assert.assertEquals(21, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
     }
 
     @Test
     public void testAddHoursThroughWeek(){
-        workInterval.addHours(15);
+        Calendar nov22_1012_Friday = nov21_1012_Thursday;
+        nov22_1012_Friday.set(Calendar.DAY_OF_MONTH, 22);
+        WorkInterval workInterval = new WorkInterval(nov22_1012_Friday);
+        workInterval.addHours(7);
         Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
         Assert.assertEquals(25, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
     }
 
     @Test
     public void testAddHoursThroughMonth() {
-        workInterval.addHours(15 + 40);
+        Calendar nov29_1012_Friday = nov21_1012_Thursday;
+        nov29_1012_Friday.set(Calendar.DAY_OF_MONTH, 29);
+        WorkInterval workInterval = new WorkInterval(nov29_1012_Friday);
+        workInterval.addHours(7);
         Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
         Assert.assertEquals(2, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
     }
 
-    @Test
-    public void testAddHoursThroughYear() {
-        workInterval.addHours(15 + 216);
-        Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
-        Assert.assertEquals(1, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
-        Assert.assertEquals(Calendar.JANUARY, workInterval.getDueDate().get(Calendar.MONTH));
-        Assert.assertEquals(2020, workInterval.getDueDate().get(Calendar.YEAR));
-    }
 }

@@ -3,13 +3,17 @@ package duedate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static duedate.DueDateCalculator.isItWeekend;
+import static duedate.DueDateHelper.isItWeekend;
 
 class WorkInterval {
 
     private final Calendar dueDate;
     private final int startWorkHour;
     private final int endWorkHour;
+
+    WorkInterval(Calendar startDate) {
+        this(startDate, 9, 17);
+    }
 
     WorkInterval(final Calendar startDate, int startWorkHour, int endWorkHour) {
         this.dueDate = GregorianCalendar.getInstance();

@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static duedate.DueDateHelper.isItWeekend;
+
 public class DueDateCalculator {
     private static final int startWorkingHour = 9;
     private static final int endWorkingHour = 17;
@@ -23,11 +25,6 @@ public class DueDateCalculator {
         workInterval.addHours(workingHours);
 
         return workInterval.getDueDate().getTime();
-    }
-
-    static boolean isItWeekend(int startDay) {
-        return startDay == Calendar.SATURDAY ||
-                startDay == Calendar.SUNDAY;
     }
 
     private static void checkStartDay(int startDay) throws InvalidStartDateException {
