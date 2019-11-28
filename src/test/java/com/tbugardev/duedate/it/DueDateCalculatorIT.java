@@ -1,7 +1,7 @@
-package it;
+package com.tbugardev.duedate.it;
 
-import duedate.DueDateCalculator;
-import duedate.exception.InvalidStartDateException;
+import com.tbugardev.duedate.calc.DueDateCalculator;
+import com.tbugardev.duedate.calc.exception.InvalidStartDateException;
 import org.junit.Assert;
 import org.junit.Test;
 

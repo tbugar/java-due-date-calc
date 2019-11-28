@@ -1,9 +1,9 @@
-package duedate;
+package com.tbugardev.duedate.calc;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static duedate.DueDateHelper.isItWeekend;
+import static com.tbugardev.duedate.calc.DueDateHelper.isItWeekend;
 
 class WorkInterval {
 

@@ -1,12 +1,12 @@
-package duedate;
+package com.tbugardev.duedate.calc;
 
-import duedate.exception.InvalidStartDateException;
+import com.tbugardev.duedate.calc.exception.InvalidStartDateException;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static duedate.DueDateHelper.isItWeekend;
+import static com.tbugardev.duedate.calc.DueDateHelper.isItWeekend;
 
 public class DueDateCalculator {
     private static final int startWorkingHour = 9;

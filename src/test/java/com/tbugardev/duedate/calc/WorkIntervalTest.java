@@ -1,4 +1,4 @@
-package duedate;
+package com.tbugardev.duedate.calc;
 
 import org.junit.Assert;
 import org.junit.Test;

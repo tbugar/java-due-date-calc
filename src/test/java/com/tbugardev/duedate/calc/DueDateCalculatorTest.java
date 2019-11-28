@@ -1,6 +1,6 @@
-package duedate;
+package com.tbugardev.duedate.calc;
 
-import duedate.exception.InvalidStartDateException;
+import com.tbugardev.duedate.calc.exception.InvalidStartDateException;
 import org.junit.Test;
 
 import java.util.Calendar;
