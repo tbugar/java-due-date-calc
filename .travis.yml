@@ -1,2 +1,4 @@
 language: java
-script: "mvn verify"
+script:
+  - jdk_switcher use openjdk8
+  - "mvn verify"
