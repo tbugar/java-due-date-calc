@@ -5,6 +5,12 @@ import java.util.GregorianCalendar;
 
 import static com.tbugardev.duedate.calc.DueDateHelper.isItWeekend;
 
+/**
+ * Determines due date by the following requirements:
+ * - weekdays are 8 h work hour long --> 8 h time = 1 day
+ * - weekends are ignored --> Monday comes after Friday
+ * Due date is initialized with submit date and updated according to turnaround time
+ */
 class WorkInterval {
 
     private final Calendar dueDate;
@@ -28,6 +34,11 @@ class WorkInterval {
         return dueDate;
     }
 
+    /**
+     * Adds hours to due date considering the working hours
+     *
+     * @param hours Number of hours to add
+     */
     void addHours(int hours) {
         int daysToAdd = hours / workingHoursPerDay;
         int currentEndHour = dueDate.get(Calendar.HOUR_OF_DAY) + hours % workingHoursPerDay;
@@ -40,6 +51,12 @@ class WorkInterval {
         dueDate.set(Calendar.HOUR_OF_DAY, currentEndHour);
     }
 
+    /**
+     * Adds days to due date considering the workdays
+     * If due date is a weekend day, then next Monday will be chosen
+     *
+     * @param days Number of days to add
+     */
     private void addDays(int days) {
         int workingDaysPerWeek = 5;
         int fullWeeks = days / workingDaysPerWeek;

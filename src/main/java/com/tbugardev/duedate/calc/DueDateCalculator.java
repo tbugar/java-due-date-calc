@@ -1,5 +1,6 @@
 package com.tbugardev.duedate.calc;
 
+import com.sun.istack.internal.NotNull;
 import com.tbugardev.duedate.calc.exception.InvalidStartDateException;
 
 import java.util.Calendar;
@@ -8,11 +9,24 @@ import java.util.GregorianCalendar;
 
 import static com.tbugardev.duedate.calc.DueDateHelper.isItWeekend;
 
+/**
+ * Calculate due date of an issue
+ * Start time of work: 9 am
+ * End time of work: 5 pm
+ */
 public class DueDateCalculator {
     private static final int startWorkingHour = 9;
     private static final int endWorkingHour = 17;
 
-    public static Date calcDueDate(Date startDate, int workingHours) throws InvalidStartDateException {
+    /**
+     * Calculate due date of issue starting starting from startDate with turnAroundHours duration
+     *
+     * @param startDate       Start time of the issue. Necessarily weekday with time between start-end times
+     * @param turnAroundHours Duration time of the issue in hours
+     * @return Due date
+     * @throws InvalidStartDateException when startDate is not filled, not weekday or not in start-end time interval
+     */
+    public static Date calcDueDate(@NotNull Date startDate, int turnAroundHours) throws InvalidStartDateException {
         if (startDate == null) throw new InvalidStartDateException("startDate is must not be null");
 
         Calendar start = GregorianCalendar.getInstance();
@@ -22,7 +36,7 @@ public class DueDateCalculator {
         checkStartHour(start.get(Calendar.HOUR_OF_DAY));
 
         WorkInterval workInterval = new WorkInterval(start, startWorkingHour, endWorkingHour);
-        workInterval.addHours(workingHours);
+        workInterval.addHours(turnAroundHours);
 
         return workInterval.getDueDate().getTime();
     }
