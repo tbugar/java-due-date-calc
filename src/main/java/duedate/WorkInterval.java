@@ -26,7 +26,7 @@ class WorkInterval {
         if (currentEndHour > endWorkHour
                 || (currentEndHour == endWorkHour && getMinutes() > 0)) {
             addDays(1);
-            currentEndHour = currentEndHour-endWorkHour+startWorkHour;
+            currentEndHour = currentEndHour - endWorkHour + startWorkHour;
         }
         dueDate.set(Calendar.HOUR_OF_DAY, currentEndHour);
     }
@@ -40,12 +40,15 @@ class WorkInterval {
     }
 
     private int getDays() {
-        return dueDate.get(Calendar.DAY_OF_WEEK);
+        return dueDate.get(Calendar.DAY_OF_MONTH);
     }
 
     private void addDays(int days) {
-        dueDate.set(Calendar.DAY_OF_WEEK, getDays() + days);
+        days+=days/5*2;
+        dueDate.set(Calendar.DAY_OF_MONTH, getDays() + days);
+        while (dueDate.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY||
+                dueDate.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
+            dueDate.set(Calendar.DAY_OF_MONTH, getDays() + 1);
+        }
     }
-
-
 }
