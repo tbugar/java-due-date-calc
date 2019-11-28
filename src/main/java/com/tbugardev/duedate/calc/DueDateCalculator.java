@@ -1,7 +1,7 @@
 package com.tbugardev.duedate.calc;
 
-import com.sun.istack.internal.NotNull;
 import com.tbugardev.duedate.calc.exception.InvalidStartDateException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 import java.util.Date;
