@@ -57,9 +57,18 @@ public class WorkIntervalTest {
     }
 
     @Test
-    public void testAddHoursThroughMonth(){
-        workInterval.addHours(55);
+    public void testAddHoursThroughMonth() {
+        workInterval.addHours(15 + 40);
         Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
         Assert.assertEquals(2, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Test
+    public void testAddHoursThroughYear() {
+        workInterval.addHours(15 + 216);
+        Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
+        Assert.assertEquals(1, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
+        Assert.assertEquals(Calendar.JANUARY, workInterval.getDueDate().get(Calendar.MONTH));
+        Assert.assertEquals(2020, workInterval.getDueDate().get(Calendar.YEAR));
     }
 }

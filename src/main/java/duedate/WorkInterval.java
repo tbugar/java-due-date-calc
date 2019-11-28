@@ -3,6 +3,8 @@ package duedate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static duedate.DueDateCalculator.isItWeekend;
+
 class WorkInterval {
 
     private final Calendar dueDate;
@@ -21,34 +23,26 @@ class WorkInterval {
     }
 
     void addHours(int hours) {
-        addDays(hours / 8);
-        int currentEndHour = getHours() + hours % 8;
+        int daysToAdd = hours / 8;
+        int currentEndHour = dueDate.get(Calendar.HOUR_OF_DAY) + hours % 8;
         if (currentEndHour > endWorkHour
-                || (currentEndHour == endWorkHour && getMinutes() > 0)) {
-            addDays(1);
+                || (currentEndHour == endWorkHour && dueDate.get(Calendar.MINUTE) > 0)) {
+            daysToAdd++;
             currentEndHour = currentEndHour - endWorkHour + startWorkHour;
         }
+        addDays(daysToAdd);
         dueDate.set(Calendar.HOUR_OF_DAY, currentEndHour);
     }
 
-    private int getMinutes() {
-        return dueDate.get(Calendar.MINUTE);
-    }
-
-    private int getHours() {
-        return dueDate.get(Calendar.HOUR_OF_DAY);
-    }
-
-    private int getDays() {
-        return dueDate.get(Calendar.DAY_OF_MONTH);
-    }
-
     private void addDays(int days) {
-        days+=days/5*2;
-        dueDate.set(Calendar.DAY_OF_MONTH, getDays() + days);
-        while (dueDate.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY||
-                dueDate.get(Calendar.DAY_OF_WEEK)== Calendar.SUNDAY){
-            dueDate.set(Calendar.DAY_OF_MONTH, getDays() + 1);
+        int fullWeeks = days / 5;
+        dueDate.set(Calendar.DAY_OF_YEAR, dueDate.get(Calendar.DAY_OF_YEAR) + fullWeeks * 7);
+        int remainingDays = days % 5;
+        while (remainingDays > 0 || isItWeekend(dueDate.get(Calendar.DAY_OF_WEEK))) {
+            if (!isItWeekend(dueDate.get(Calendar.DAY_OF_WEEK))) {
+                remainingDays--;
+            }
+            dueDate.set(Calendar.DAY_OF_YEAR, dueDate.get(Calendar.DAY_OF_YEAR) + 1);
         }
     }
 }

@@ -13,17 +13,28 @@ public class DueDateCalculator {
     public static Date calcDueDate(Date startDate, int workingHours) throws InvalidStartDateException {
         if (startDate == null) throw new InvalidStartDateException("startDate is must not be null");
 
-        Calendar c = GregorianCalendar.getInstance();
-        c.setTime(startDate);
-        checkStartDate(c.get(Calendar.HOUR_OF_DAY));
+        Calendar start = GregorianCalendar.getInstance();
+        start.setTime(startDate);
 
-        WorkInterval workInterval = new WorkInterval(c, startWorkingHour, endWorkingHour);
+        checkStartDay(start.get(Calendar.DAY_OF_WEEK));
+        checkStartHour(start.get(Calendar.HOUR_OF_DAY));
+
+        WorkInterval workInterval = new WorkInterval(start, startWorkingHour, endWorkingHour);
         workInterval.addHours(workingHours);
 
         return workInterval.getDueDate().getTime();
     }
 
-    private static void checkStartDate(int startHourParam) throws InvalidStartDateException {
+    static boolean isItWeekend(int startDay) {
+        return startDay == Calendar.SATURDAY ||
+                startDay == Calendar.SUNDAY;
+    }
+
+    private static void checkStartDay(int startDay) throws InvalidStartDateException {
+        if (isItWeekend(startDay)) throw new InvalidStartDateException("Working hours must be start on working days");
+    }
+
+    private static void checkStartHour(int startHourParam) throws InvalidStartDateException {
         if (startHourParam < startWorkingHour || startHourParam > endWorkingHour) throw new InvalidStartDateException("Working hours are from " + startWorkingHour +" to " + endWorkingHour);
     }
 }

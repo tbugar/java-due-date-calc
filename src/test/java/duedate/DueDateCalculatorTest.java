@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 public class DueDateCalculatorTest {
 
     private final Date invalidStartDate = new GregorianCalendar(2019, Calendar.NOVEMBER, 28, 8, 12).getTime();
+    private final Date nonWorkingDay = new GregorianCalendar(2019, Calendar.NOVEMBER, 30, 10, 0).getTime();
     private final int withinADayWorkingHours = 4;
 
     @Test(expected = InvalidStartDateException.class)
@@ -21,5 +22,10 @@ public class DueDateCalculatorTest {
     @Test(expected = InvalidStartDateException.class)
     public void testNullDueDateThrowsException() throws DueDateCalcException {
         DueDateCalculator.calcDueDate(null, withinADayWorkingHours);
+    }
+
+    @Test(expected = InvalidStartDateException.class)
+    public void testReportNonWorkingHour() throws DueDateCalcException {
+        DueDateCalculator.calcDueDate(nonWorkingDay, withinADayWorkingHours);
     }
 }
