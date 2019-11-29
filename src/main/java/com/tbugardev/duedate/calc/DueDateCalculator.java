@@ -27,6 +27,7 @@ public class DueDateCalculator {
      * @throws InvalidStartDateException when startDate is not filled, not weekday or not in start-end time interval
      */
     public static Date calcDueDate(@NotNull Date startDate, int turnAroundHours) throws InvalidStartDateException {
+        if (startDate == null) throw new IllegalArgumentException("StartDate must not be null");
         Calendar start = GregorianCalendar.getInstance();
         start.setTime(startDate);
 
