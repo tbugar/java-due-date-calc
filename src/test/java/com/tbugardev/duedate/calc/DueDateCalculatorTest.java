@@ -18,13 +18,13 @@ public class DueDateCalculatorTest {
         DueDateCalculator.calcDueDate(invalidStartDate, withinADayWorkingHours);
     }
 
-    @Test(expected = InvalidStartDateException.class)
-    public void testNullDueDateThrowsException() throws InvalidStartDateException {
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullStartDateThrowsException() throws InvalidStartDateException {
         DueDateCalculator.calcDueDate(null, withinADayWorkingHours);
     }
 
     @Test(expected = InvalidStartDateException.class)
-    public void testReportNonWorkingHour() throws InvalidStartDateException {
+    public void testNonWorkingHourStartTimeThrowsException() throws InvalidStartDateException {
         DueDateCalculator.calcDueDate(nonWorkingDay, withinADayWorkingHours);
     }
 }
