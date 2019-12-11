@@ -56,6 +56,16 @@ public class WorkIntervalTest {
     }
 
     @Test
+    public void testAddHoursThrough4Weeks() {
+        Calendar nov22_1012_Friday = nov21_1012_Thursday;
+        nov22_1012_Friday.set(Calendar.DAY_OF_MONTH, 22);
+        WorkInterval workInterval = new WorkInterval(nov22_1012_Friday);
+        workInterval.addHours(127);
+        Assert.assertEquals(9, workInterval.getDueDate().get(Calendar.HOUR_OF_DAY));
+        Assert.assertEquals(16, workInterval.getDueDate().get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Test
     public void testAddHoursThroughMonth() {
         Calendar nov29_1012_Friday = nov21_1012_Thursday;
         nov29_1012_Friday.set(Calendar.DAY_OF_MONTH, 29);
